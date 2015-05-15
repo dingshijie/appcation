@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd">
+       
+       <!-- 扫描redis的配置文件 -->
+       <context:property-placeholder location="classpath:redis.properties"/>
+       
+       <bean id="jedisShardInfo" class="redis.clients.jedis.JedisShardInfo">
+       		<constructor-arg name="name" value="${redis.name}"/>
+    	 	<constructor-arg name="host" value="${redis.host}"/>
+    	 	<constructor-arg name="port" value="${redis.port}" type="int"/>
+    	 	<constructor-arg name="timeout" value="${redis.timeout}" type="int"/>
+       </bean>
+       
+       <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+       		<!-- userPool已经设置了连接池的一些信息，且如果不特别指定为false，默认为true -->
+       		<property name="password" value="${redis.password}"></property>
+       		<property name="usePool" value="true"></property>
+       		<constructor-arg>
+       			<ref bean="jedisShardInfo"/>
+       		</constructor-arg>
+       </bean>
+       <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+       		<property name="connectionFactory" ref="connectionFactory"></property>
+       		<!-- 对key进行序列化 -->
+       		<property name="keySerializer" ref="stringSerializer"></property>
+       		<!-- 对value进行序列化 -->
+       		<property name="valueSerializer" ref="jdkSerializer"></property>
+       </bean>
+       <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+       <bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"></bean>
+</beans>
