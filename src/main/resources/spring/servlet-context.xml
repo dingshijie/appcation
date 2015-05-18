@@ -25,7 +25,9 @@
 	</beans:bean>
 	
 	
-	
+	<!-- NOSQL 数据库/缓存 -->
 	<beans:import resource="redis.xml"/>
+	<!-- 任务调度 -->
+	<beans:import resource="quartz.xml"/>
 	
 </beans:beans>

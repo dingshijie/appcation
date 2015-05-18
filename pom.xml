@@ -11,6 +11,7 @@
 		<java-version>1.7</java-version>
 		<spring-version>4.1.6.RELEASE</spring-version>
 		<jackson-version>2.4.0</jackson-version>
+		<joda-time.version>2.4</joda-time.version>
 	</properties>
 	
 	<dependencies>
@@ -78,6 +79,28 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
+
+		<!-- Joda Time config -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time-jsptags</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time-hibernate</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 		
 		<!-- slf4j log config -->
 		<dependency>
@@ -142,6 +165,13 @@
 					<artifactId>servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		
+		<!-- 任务调度 quartz -->
+		<dependency>
+		  <groupId>org.quartz-scheduler</groupId>
+		  <artifactId>quartz</artifactId>
+		  <version>2.2.1</version>
 		</dependency>
 		
 	</dependencies>
