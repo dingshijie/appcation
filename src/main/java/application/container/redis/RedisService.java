@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 /**
  * redis的服务层
  * 
+ * @TODO 连续操作的时候会出现卡的情况，也不报错，具体原因未明
  * @author dingshijie
  *
  */
@@ -71,7 +72,8 @@ public class RedisService {
 	//删除
 	public boolean delete(String key) {
 		RedisConnection connection = this.getRedisConnection();
-		if (connection.del(keySerializer.serialize(key)) != null) {
+
+		if (connection.exists(keySerializer.serialize(key)) && connection.del(keySerializer.serialize(key)) != null) {
 			//			connection.bgSave();
 			return true;
 		} else {
