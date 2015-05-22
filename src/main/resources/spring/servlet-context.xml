@@ -4,11 +4,15 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	
 	xsi:schemaLocation="
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-util.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-util.xsd
+         http://www.springframework.org/schema/data/jpa
+          http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 	
 	<!-- 启动扫描 -->
 	<annotation-driven></annotation-driven>
@@ -29,5 +33,14 @@
 	<beans:import resource="redis.xml"/>
 	<!-- 任务调度 -->
 	<beans:import resource="quartz.xml"/>
+	
+	<beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
+ 		<beans:property name="entityManagerFactory" ref="entityManagerFactory"/> 
+ 	</beans:bean> 
+ 	<beans:bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> 
+    </beans:bean> 
+	
+	<jpa:repositories base-package="application.container.jpa" entity-manager-factory-ref="entityManagerFactory"  transaction-manager-ref="transactionManager"/> 
+	
 	
 </beans:beans>
