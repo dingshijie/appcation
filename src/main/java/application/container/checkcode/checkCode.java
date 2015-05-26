@@ -11,10 +11,15 @@ import java.util.regex.Pattern;
 public class checkCode {
 
 	public static void main(String[] args) {
-		//new checkCode().checkOrgCode("");//校验组织机构代码入口
+		boolean result = false;
+		//result = new checkCode().checkOrgCode("00990986X");//校验组织机构代码入口
+		//result = new checkCode().checkOrgCode("L5701181X");//校验组织机构代码入口
 		//new checkCode().checkRegisterNumber("");//校验工商注册号入口
 		//如下示例
-		new checkCode().checkRegisterNumber("230302600173168");
+		//result = new checkCode().checkRegisterNumber("110108000000016");
+		//result = new checkCode().checkRegisterNumber("123456789012345");
+		result = new checkCode().CheckGB_32100_2015Code("311501053414322665");
+		System.out.println(result);
 	}
 
 	/**
@@ -41,18 +46,20 @@ public class checkCode {
 			}
 			num = num * factors[i]; // 取Wi本体代码与加权银子对应各位相乘
 			chkNum += num; // 乘积相加求和数
+			System.out.printf("\n%2d + %2d = %2d\t", num, num, chkNum);
 		}
 		chkNum = chkNum % 11; // 取模数11除和数，求余数
 		chkNum = 11 - chkNum; // 以模数11减余数，求校验码数值
 		if (chkNum == 11) {
 			chkNum = 0; // 校验数为11时直接转换为0
 		}
-
 		// 获取校验码，并跟校验数进行比较。校验数为10时候校验码应为“X”
 		String chkCode = String.valueOf(orgCode.charAt(8));
 		if (chkCode.endsWith(String.valueOf(chkNum)) || (chkCode.equals("X") && chkNum == 10)) {
+			System.out.printf("获取的校验码为：%d, 校验位是%s, 校验成功", chkNum, chkCode);
 			return true;
 		} else {
+			System.out.printf("获取的校验码为：%d, 由于校验位是%s, 校验失败", chkNum, chkCode);
 			return false;
 		}
 	}
@@ -104,7 +111,7 @@ public class checkCode {
 		}
 		System.out.println();
 		int sub_Num = Integer.parseInt(subStr.substring(0, 1));//每次截取第一位用来处理
-		System.out.printf("%2d + %2d = %2d\t", P_num, sub_Num, (P_num % 11 + sub_Num));
+		System.out.printf("%2d + %2d = %2d\t", (P_num % 11), sub_Num, (P_num % 11 + sub_Num));
 		sub_Num = P_num % 11 + sub_Num;
 		P_num = (sub_Num % 10 != 0 ? sub_Num % 10 : 10) * 2;
 		System.out.printf("%2d * %2d = %2d\t", (sub_Num % 10 != 0 ? sub_Num % 10 : 10), 2, P_num);
@@ -126,4 +133,42 @@ public class checkCode {
 		return true;
 	}
 
+	//	String[] changecode = new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E",
+	//			"F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "T", "U", "W", "X", "Y" };
+	char[] changecode = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+			'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'W', 'X', 'Y' };
+
+	int[] modNum = new int[] { 1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28 };
+
+	//按照GB_32100_2015校验
+	public boolean CheckGB_32100_2015Code(String code) {
+		int result = 0;
+		for (int i = 0; i < 17; i++) {
+			char ch = code.charAt(i);
+			int num = 0;
+			if (ch >= 'A' && ch <= 'H') {
+				num = ch - 'A' + 10;
+			} else if (ch >= 'J' && ch <= 'N') {
+				num = ch - 'A' + 10 - 1;
+			} else if (ch >= 'P' && ch <= 'R') {
+				num = ch - 'A' + 10 - 2;
+			} else if (ch >= 'T' && ch <= 'U') {
+				num = ch - 'A' + 10 - 3;
+			} else if (ch >= 'W' && ch <= 'Y') {
+				num = ch - 'A' + 10 - 4;
+			} else if (ch >= '0' && ch <= '9') {
+				num = ch - '0';
+			} else {
+				return false; // 含有数字字母以外的字符，直接返回错误
+			}
+			result += num * modNum[i];
+			System.out.printf("%2d + %2d = %2d\n", num, modNum[i], result);
+		}
+		System.out.printf("计算出的校验位为:%2d, 该代码的校验位为:%2s\n", (31 - result % 31), code.charAt(17));
+		result = 31 - result % 31;
+		if (code.charAt(17) == changecode[result]) {
+			return true;
+		}
+		return false;
+	}
 }

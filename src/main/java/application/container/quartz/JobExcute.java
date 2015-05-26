@@ -12,9 +12,8 @@ public class JobExcute {
 	 * 执行任务
 	 */
 	public void excute() {
-		System.out.println("执行任务" + new DateTime());
+		System.out.println("执行任务" + new DateTime() + ",且每分钟执行一次");
 
 		System.out.println("任务结束");
 	}
-
 }
