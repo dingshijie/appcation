@@ -14,10 +14,13 @@
   <h4>index</h4>
   
   <br>
-  <h5><a href="${webRoot }/redis/redis.html">redis</a></h5>
+  <h5><a href="${webRoot }/redis/redis.html">go to redis</a></h5>
   
   <br>
-  <h5><a href="${webRoot }/itext/itext.html">itext</a></h5>
+  <h5><a href="${webRoot }/itext/itext.html">go to itext</a></h5>
+  
+  <br>
+  <h5><a href="${webRoot }/oltu/login.html">go to oltu oauth2</a></h5>
   
   
   <div id="container" style="min-width:700px;height:400px"></div>
