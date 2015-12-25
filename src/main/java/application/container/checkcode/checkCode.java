@@ -23,10 +23,11 @@ public class checkCode {
 	}
 
 	/**
-	 * 根据GB 11714-1997标准对组织机构代码中的校验位进行校验
-	 * @param orgCode 组织机构代码
-	 * @return 是否正确的组织机构代码
-	 */
+	* 根据GB 11714-1997标准对组织机构代码中的校验位进行校验
+	* @param orgCode 组织机构代码
+	* @return 是否正确的组织机构代码
+	*/
+
 	private boolean checkOrgCode(String orgCode) {
 		if (orgCode.length() != 9 || orgCode.equals("000000000") || orgCode.equals("123456788"))
 			return false;
@@ -65,11 +66,12 @@ public class checkCode {
 	}
 
 	/**
-	 * 校验工商行政注册码
-	 * 按照GB/T 17710，MOD 11,10校验
-	 * @param number
-	 * @return
-	 */
+		* 校验工商行政注册码
+		* 按照GB/T 17710，MOD 11,10校验
+		* @param number
+		* @return
+		*/
+
 	public boolean checkRegisterNumber(String number) {
 		if (number.length() != 15) {
 			System.err.println("工商注册码不为15位");
@@ -99,12 +101,13 @@ public class checkCode {
 	}
 
 	/**
-	 * 按照GB/T 17710，MOD 11,10校验公式
-	 * 最终递归循环得到 P_15 % 11,用于调用处来验证是否正确
-	 * @param P_num
-	 * @param subStr用来递归的子串
-	 * @return
-	 */
+		* 按照GB/T 17710，MOD 11,10校验公式
+		* 最终递归循环得到 P_15 % 11,用于调用处来验证是否正确
+		* @param P_num
+		* @param subStr用来递归的子串
+		* @return
+		*/
+
 	public int checkNum(int P_num, String subStr) {
 		if ("".equals(subStr)) {//直到递归无剩余子串，可返回结果
 			return P_num % 11;
@@ -120,10 +123,11 @@ public class checkCode {
 	}
 
 	/**
-	 * 检测字符传是否全为数字
-	 * @param str
-	 * @return
-	 */
+		* 检测字符传是否全为数字
+		* @param str
+		* @return
+		*/
+
 	public boolean isNumeric(String str) {
 		Pattern pattern = Pattern.compile("[0-9]*");
 		Matcher isNum = pattern.matcher(str);
@@ -171,4 +175,5 @@ public class checkCode {
 		}
 		return false;
 	}
+
 }
