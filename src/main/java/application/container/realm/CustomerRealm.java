@@ -53,6 +53,9 @@ public class CustomerRealm extends AuthorizingRealm {
 		String username = upToken.getUsername();
 
 		String password = String.valueOf(upToken.getPassword());
+
+		//如果项目中密码或用户等有特殊处理（如加密等），可以在这里将输入的密码用户等upToken中，做相应的处理
+
 		if (username == null) {
 			throw new AccountException("Null usernames are not allowed by this realm.");
 		}
@@ -62,7 +65,9 @@ public class CustomerRealm extends AuthorizingRealm {
 
 		SimpleAuthenticationInfo info = null;
 		try {
-			info = new SimpleAuthenticationInfo(username, password, getName());
+			//这里为正确的用户对于的密码
+			//或从文件配置或从数据库取出
+			info = new SimpleAuthenticationInfo(username, "123456", getName());
 
 		} catch (Exception e) {
 			final String message = "There was a error while authenticating user [" + username + "]";
