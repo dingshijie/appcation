@@ -1,0 +1,17 @@
+
+body{
+	width: 100%;
+}
+
+.page-header > label{
+	font-size: 24px;
+	font-weight: normal;
+}
+.page-header > .index{
+	float: right;
+}
+
+ol > li{
+	margin-bottom: 5px;	
+}
+
